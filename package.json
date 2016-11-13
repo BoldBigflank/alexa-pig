@@ -1,0 +1,27 @@
+{
+  "name": "alexa-pig",
+  "version": "1.0.0",
+  "description": "Turn a phrase into Pig Latin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Pig",
+    "Latin",
+    "English",
+    "Alexa",
+    "Amazon",
+    "Echo",
+    "Dot",
+    "Touch"
+  ],
+  "author": "Alex Swan",
+  "license": "ISC",
+  "dependencies": {
+    "cmudict": "^1.0.2"
+  },
+  "devDependencies": {
+    "dotenv": "^2.0.0"
+  }
+}

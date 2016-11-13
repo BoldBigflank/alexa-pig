@@ -1,0 +1,14 @@
+
+{
+  "intents": [
+    {
+      "intent": "PhraseIntent",
+      "slots": [
+        {
+          "name": "phrase",
+          "type": "PHRASE_TYPES"
+        }
+      ]
+    }
+  ]
+}
