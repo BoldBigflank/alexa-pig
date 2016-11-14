@@ -19,6 +19,5 @@
   "author": "Alex Swan",
   "license": "ISC",
   "dependencies": {
-    "cmudict": "https://github.com/BoldBigflank/node-cmudict.git"
   }
 }
