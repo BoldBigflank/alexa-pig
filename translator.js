@@ -1,5 +1,6 @@
 'use strict';
 var CMUDict = require('./cmudict');
+var cmudict = new CMUDict();
 
 function Translator() {
     // var phoneme_str = cmudict.get('prosaic');
@@ -21,7 +22,7 @@ function translatePigLatin(phrase) {
     for (var i = 0; i < phrase_array.length; i++) {
         // Split each word into a phoneme string
         var word = phrase_array[i];
-        var phoneme_str = CMUDict[word];
+        var phoneme_str = CMUDict.get(word);
         
         // Move the first phoneme to the end, add EY1
         // var phoneme_array = phoneme_str.split(" ");
