@@ -73,7 +73,8 @@ HelloWorld.prototype.intentHandlers = {
     },
     "PhraseIntent": function (intent, session, response) {
         translator.translate(intent.slots.phrase.value, "PigLatin", function(result){
-            response.tellWithCard(result, "Hello World", "Hello World!");
+            // speechOutput, cardTitle, cardContent
+            response.tellWithCard(result, "Translate Result", "phrase: " + intent.slots.phrase.value + "\nresult:" + result.speech);
         });
     }
 };

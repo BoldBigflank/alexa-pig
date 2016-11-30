@@ -1,6 +1,5 @@
 'use strict';
 var CMUDict = require('./cmudict');
-var cmudict = new CMUDict();
 
 function Translator() {
     // var phoneme_str = cmudict.get('prosaic');
@@ -30,10 +29,13 @@ function translatePigLatin(phrase) {
         // phoneme_array.push(first);
         // phoneme_array.push("eɪ");
 
-        var phoneme_str_pig = phoneme_str.substr(1) + phoneme_str.charAt(0) + "eɪ";
-        
-
-        result += "<phoneme alphabet='ipa' ph='" + phoneme_str_pig + "'>" + word + "</phoneme>"
+        if(phoneme_str === undefined) {
+            // go letter by letter
+            result += " " + word + " ";
+        } else {
+            var phoneme_str_pig = phoneme_str.substr(1) + phoneme_str.charAt(0) + "eɪ";
+            result += "<phoneme alphabet='ipa' ph='" + phoneme_str_pig + "'>" + word + "</phoneme>"
+        }
     }
 
     // Turn the CMU Dict symbols to IPA
