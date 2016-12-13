@@ -6,10 +6,10 @@ function Translator() {
     this._cache = null;
 }
 
-Translator.prototype.translate = function(phrase, language, cb){
+Translator.prototype.translate = function(phrase, prefix, cb){
     var result = {
         "type":"SSML",
-        "speech":"<speak>" + translatePigLatin(phrase) + "</speak>"
+        "speech":"<speak>" + prefix + ", " + translatePigLatin(phrase) + "</speak>"
     };
     return cb(result);
 };
@@ -35,7 +35,7 @@ var cardinals = {
 
 function translatePigLatin(phrase) {
     console.log("translating:", phrase);
-    var result = "";
+    var result = "Here is your phrase in Pig Latin: ";
 
     // Replace numbers to words
     var tempRegex = /(\d+)F/g;
@@ -44,7 +44,7 @@ function translatePigLatin(phrase) {
     var negRegex = /-(\d+)/g;
     phrase = phrase.replace(negRegex, "negative $1");
 
-    var precentRegex = /%/g;
+    var percentRegex = /%/g;
     phrase = phrase.replace(percentRegex, " percent ");
 
     var numberRegex = /(\d+)/g;

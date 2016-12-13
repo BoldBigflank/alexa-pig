@@ -76,9 +76,9 @@ HelloWorld.prototype.intentHandlers = {
         response.tell("Goodbye."); 
     }, 
     "PhraseIntent": function (intent, session, response) {
-        translator.translate(intent.slots.phrase.value, "PigLatin", function(result){
+        translator.translate(intent.slots.phrase.value, "Here is your phrase in Pig Latin", function(result){
             // speechOutput, cardTitle, cardContent
-            response.tellWithCard("Here is your phrase in Pig Latin: " + result, "Translate Result", "phrase: " + intent.slots.phrase.value + "\nresult:" + result.speech);
+            response.tellWithCard(result, "Translate Result", "phrase: " + intent.slots.phrase.value + "\nresult:" + result.speech);
         });
     },
     "WeatherIntent": function (intent, session, response) {
@@ -91,10 +91,7 @@ HelloWorld.prototype.intentHandlers = {
             if(err || data.txt_forecast === undefined) {
                 console.log(err);
                 string = "Could not find " + intent.slots.city.value + ", " + intent.slots.state.value + ". What would you like to translate?";
-                translator.translate(string, "PigLatin", function(result){
-                    // speechOutput, cardTitle, cardContent
-                    response.askWithCard(string, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
-                });
+                response.askWithCard(string, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
             } else {
                 for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
                     var day = data.txt_forecast.forecastday[i];
@@ -103,9 +100,9 @@ HelloWorld.prototype.intentHandlers = {
                 storage.loadUser(session, function(userData){
                     userData.data.slots = intent.slots;
                     userData.save(function(){
-                        translator.translate(string, "PigLatin", function(result){
+                        translator.translate(string, "Here is the weather for " + intent.slots.city + " " + intent.slots.state.value + " in Pig Latin", function(result){
                             // speechOutput, cardTitle, cardContent
-                            response.tellWithCard("Here is your phrase in Pig Latin: " + result, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
+                            response.tellWithCard(result, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
                         });
                     });
                 });
@@ -120,13 +117,33 @@ HelloWorld.prototype.intentHandlers = {
                 response.ask("What city and state would you like the weather?", "What city and state would you like the weather?");
             } else {
                 // Get the city/state from storage
-                for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
-                    var day = data.txt_forecast.forecastday[i];
-                    string += day.title + ", " + day.fcttext + "\n";
-                }
-                translator.translate(string, "PigLatin", function(result){
-                    // speechOutput, cardTitle, cardContent
-                    response.tellWithCard(result, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
+                storage.loadUser(session, function(userData){
+                    intent.slots = userData.data.slots;
+                    var client = new Wunderground(process.env.API_KEY, intent.slots.city.value, intent.slots.state.value);
+                    client.forecast('', function(err, data){
+                        console.log("result", err, JSON.stringify(data));
+                        // If it worked
+                        var string = "";
+                        if(err || data.txt_forecast === undefined) {
+                            console.log(err);
+                            string = "Could not find " + intent.slots.city.value + ", " + intent.slots.state.value + ". What would you like to translate?";
+                            response.askWithCard(string, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
+                        } else {
+                            for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
+                                var day = data.txt_forecast.forecastday[i];
+                                string += day.title + ", " + day.fcttext + "\n";
+                            }
+                            storage.loadUser(session, function(userData){
+                                userData.data.slots = intent.slots;
+                                userData.save(function(){
+                                    translator.translate(string, "Here is the weather for " + intent.slots.city + " " + intent.slots.state.value + " in Pig Latin", function(result){
+                                        // speechOutput, cardTitle, cardContent
+                                        response.tellWithCard(result, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
+                                    });
+                                });
+                            });
+                        }
+                    });
                 });
             }
 
