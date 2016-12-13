@@ -1,19 +1,14 @@
+WeatherIntent what's the weather in {city} {state}
+WeatherIntent the weather in {city} {state}
+
 PhraseIntent translate {phrase}
 PhraseIntent convert {phrase}
-PhraseIntent say {phrase} in Pig Latin
+PhraseIntent say {phrase} in pig latin
 PhraseIntent say {phrase}
 PhraseIntent {phrase}
+PhraseIntent what is {phrase}
+PhraseIntent what is {phrase} in pig latin
 
-AMAZON.StartOverIntent start game
-AMAZON.StartOverIntent new game
-AMAZON.StartOverIntent start
-AMAZON.StartOverIntent start new game
+StoredWeatherIntent the weather
+StoredWeatherIntent what is the weather
 
-DontKnowIntent i don't know
-DontKnowIntent don't know
-DontKnowIntent skip
-DontKnowIntent i don't know that
-DontKnowIntent who knows
-DontKnowIntent i don't know this question
-DontKnowIntent i don't know that one
-DontKnowIntent dunno
