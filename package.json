@@ -19,5 +19,8 @@
   "author": "Alex Swan",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.7.10",
+    "dotenv": "^2.0.0",
+    "node-weatherunderground": "^1.2.0"
   }
 }

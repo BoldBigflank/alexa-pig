@@ -9,6 +9,23 @@
           "type": "PHRASE_TYPES"
         }
       ]
+    },
+    {
+      "intent": "WeatherIntent",
+      "slots": [
+        {
+          "name": "city",
+          "type": "CITY_TYPES"
+        },
+        {
+          "name": "state",
+          "type": "STATE_TYPES"
+        }
+      ]
+    },
+    {
+      "intent": "StoredWeatherIntent",
+      "slots": []
     }
   ]
 }
