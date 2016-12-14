@@ -35,7 +35,7 @@ var cardinals = {
 
 function translatePigLatin(phrase) {
     console.log("translating:", phrase);
-    var result = "Here is your phrase in Pig Latin: ";
+    var result = "";
 
     // Replace numbers to words
     var tempRegex = /(\d+)F/g;
