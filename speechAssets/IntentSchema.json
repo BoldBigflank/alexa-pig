@@ -26,6 +26,12 @@
     {
       "intent": "StoredWeatherIntent",
       "slots": []
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
     }
   ]
 }

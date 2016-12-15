@@ -70,16 +70,21 @@ HelloWorld.prototype.eventHandlers.onSessionEnded = function (sessionEndedReques
 HelloWorld.prototype.intentHandlers = {
     // register custom intent handlers
     "AMAZON.HelpIntent": function (intent, session, response) { 
-        response.ask("You can speak a phrase to be translated into Pig Latin, or you can ask the weather in a specific city and state. For example, say 'what is the weather in Seattle Washington'. You can say 'stop' to end. What would you like to translate?"); 
+        response.ask("You can speak a phrase to be translated into Pig Latin, or you can ask the weather in a specific city and state. For example, say 'what is the weather in Seattle Washington'. You can say 'stop' to end. What would you like to translate?", "What would you like to translate?"); 
     }, 
     "AMAZON.StopIntent": function (intent, session, response) { 
         response.tell("Goodbye."); 
     }, 
     "PhraseIntent": function (intent, session, response) {
-        translator.translate(intent.slots.phrase.value, "Here is your phrase in Pig Latin", function(result){
-            // speechOutput, cardTitle, cardContent
-            response.tellWithCard(result, "Translate Result", "phrase: " + intent.slots.phrase.value + "\nresult:" + result.speech);
-        });
+        if (!intent.slots.phrase.value) {
+            response.ask("You can speak a phrase to be translated into Pig Latin, or you can ask the weather in a specific city and state. For example, say 'what is the weather in Seattle Washington'. You can say 'stop' to end. What would you like to translate?", "What would you like to translate?"); 
+        } else {
+            translator.translate(intent.slots.phrase.value, "Here is your phrase in Pig Latin", function(result){
+                // speechOutput, cardTitle, cardContent
+                response.tellWithCard(result, "Translate Result", "phrase: " + intent.slots.phrase.value);
+            });
+            
+        }
     },
     "WeatherIntent": function (intent, session, response) {
         // Get the 
@@ -91,9 +96,10 @@ HelloWorld.prototype.intentHandlers = {
             if(err || data.txt_forecast === undefined) {
                 console.log(err);
                 string = "Could not find " + intent.slots.city.value + ", " + intent.slots.state.value + ". What would you like to translate?";
-                response.askWithCard(string, "eather-way", "phrase: " + string + "\nresult:" + result.speech);
+                response.askWithCard(string, "eather-way", "phrase: " + string);
             } else {
-                for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
+                // for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
+                for( var i = 0; i < 2; i++ ) {
                     var day = data.txt_forecast.forecastday[i];
                     string += day.title + ", " + day.fcttext + "\n";
                 }
@@ -129,7 +135,8 @@ HelloWorld.prototype.intentHandlers = {
                             string = "Could not find " + intent.slots.city.value + ", " + intent.slots.state.value + ". What would you like to translate?";
                             response.askWithCard(string, "eather-way", "phrase: " + string);
                         } else {
-                            for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
+                            // for( var i = 0; i < data.txt_forecast.forecastday.length; i++ ) {
+                            for( var i = 0; i < 2; i++ ) {
                                 var day = data.txt_forecast.forecastday[i];
                                 string += day.title + ", " + day.fcttext + "\n";
                             }
@@ -148,7 +155,7 @@ HelloWorld.prototype.intentHandlers = {
             }
 
         });
-    },
+    }
 
 };
 
